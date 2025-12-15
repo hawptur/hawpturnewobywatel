@@ -11,6 +11,7 @@
       --text-main: #000000;
       --text-sub: #6b6b6f;
       --accent: #007aff;
+      --bar-bg: #e5e5ea;
     }
 
     * {
@@ -23,52 +24,54 @@
       background: var(--bg);
       display: flex;
       justify-content: center;
-      padding: 20px 0 40px;
+      padding: env(safe-area-inset-top) 0 40px;
     }
 
     .phone {
-      width: 390px; /* iPhone 14 width */
+      width: min(100vw, 390px);
       background: var(--bg);
     }
 
     .nav {
       display: flex;
       align-items: center;
-      padding: 12px 16px;
+      padding: 14px 16px 8px;
       font-size: 17px;
+      font-weight: 400;
     }
 
     .nav a {
       color: var(--accent);
       text-decoration: none;
-      margin-right: 8px;
     }
 
     .card {
       background: var(--card);
-      border-radius: 16px;
-      margin: 12px 16px;
-      padding: 24px 16px 20px;
+      border-radius: 18px;
+      margin: 8px 16px;
+      padding: 26px 18px 22px;
       text-align: center;
       box-shadow: 0 1px 0 rgba(0,0,0,0.04);
     }
 
     h1 {
-      font-size: 22px;
-      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.25;
+      margin: 0 0 10px;
       font-weight: 700;
     }
 
     .subtitle {
       font-size: 15px;
+      line-height: 1.4;
       color: var(--text-sub);
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .qr {
-      width: 220px;
-      height: 220px;
-      margin: 0 auto 16px;
+      width: 240px;
+      height: 240px;
+      margin: 0 auto 14px;
       background: #fff;
       padding: 10px;
     }
@@ -76,7 +79,24 @@
     .code {
       font-size: 22px;
       letter-spacing: 3px;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .progress {
+      width: 100%;
+      height: 4px;
+      background: var(--bar-bg);
+      border-radius: 4px;
+      overflow: hidden;
       margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 100%;
+      background: var(--accent);
+      transition: width 1s linear;
     }
 
     .timer {
@@ -99,11 +119,10 @@
       gap: 4px;
     }
 
-    /* Simple icons */
     .icon {
       width: 22px;
       height: 22px;
-      border-radius: 5px;
+      border-radius: 6px;
       background: #d1d1d6;
     }
   </style>
@@ -117,15 +136,19 @@
     <div class="card">
       <h1>Pokaż kod QR osoby, której<br> dokument sprawdzasz</h1>
       <div class="subtitle">
-        Gdy ta osoba zeskanuje ten kod, zobaczy ją dane na swoim telefonie.
+        Gdy ta osoba zeskanuje ten kod, zobaczy swoje dane na swoim telefonie.
       </div>
 
       <div class="qr">
-        <!-- QR wygenerowany dynamicznie -->
         <canvas id="qrcode"></canvas>
       </div>
 
       <div class="code">234567</div>
+
+      <div class="progress">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+
       <div class="timer" id="timer">Kod wygasa za: 2 min 30 sek.</div>
     </div>
 
@@ -137,18 +160,18 @@
     </div>
   </div>
 
-  <!-- QR generator -->
   <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <script>
-    const qr = new QRious({
+    new QRious({
       element: document.getElementById('qrcode'),
       value: '234567',
-      size: 200
+      size: 220
     });
 
-    // Timer
-    let seconds = 150;
+    const total = 150;
+    let seconds = total;
     const timerEl = document.getElementById('timer');
+    const progressEl = document.getElementById('progress');
 
     setInterval(() => {
       if (seconds <= 0) return;
@@ -156,6 +179,7 @@
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       timerEl.textContent = `Kod wygasa za: ${m} min ${s.toString().padStart(2,'0')} sek.`;
+      progressEl.style.width = `${(seconds / total) * 100}%`;
     }, 1000);
   </script>
 </body>
