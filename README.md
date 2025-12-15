@@ -1,0 +1,1 @@
+projekt robiony w celach edukacyjnych oraz badawczych, wszelkie złe użytkowanie z mojego open-source projektu będzie kończyło się blokadą. nie ponoszę żadnej odpowiedzialności za to co z tym projektem zrobisz. pozdrawiam 💯
