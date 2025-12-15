@@ -29,7 +29,10 @@
 
     .phone {
       width: min(100vw, 390px);
+      min-height: 100vh;
       background: var(--bg);
+      display: flex;
+      flex-direction: column;
     }
 
     .nav {
@@ -103,13 +106,18 @@
       font-size: 13px;
       color: var(--text-sub);
     }
+    .timer strong {
+      font-weight: 700;
+      color: #000;
+    }
 
     .bottom {
       display: flex;
       justify-content: space-around;
-      padding: 14px 0 0;
+      padding: 10px 0 16px;
       font-size: 11px;
       color: var(--text-sub);
+      border-top: 1px solid #e5e5ea;
     }
 
     .bottom div {
@@ -130,10 +138,10 @@
 <body>
   <div class="phone">
     <div class="nav">
-      <a href="#">Powrót</a>
+      <a href="https://hawptur.github.io/hawpturnewobywatel/dowodnowy.html">&lt; Kod QR</a>
     </div>
 
-    <div class="card">
+    <div class="card" style="flex: 1;">
       <h1>Pokaż kod QR osoby, której<br> dokument sprawdzasz</h1>
       <div class="subtitle">
         Gdy ta osoba zeskanuje ten kod, zobaczy swoje dane na swoim telefonie.
@@ -178,7 +186,7 @@
       seconds--;
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
-      timerEl.textContent = `Kod wygasa za: ${m} min ${s.toString().padStart(2,'0')} sek.`;
+      timerEl.innerHTML = `Kod wygasa za: <strong>${m} min ${s.toString().padStart(2,'0')} sek.</strong>`;
       progressEl.style.width = `${(seconds / total) * 100}%`;
     }, 1000);
   </script>
